@@ -1,0 +1,9 @@
+{
+	"name": "ADF-Zen-BI",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "50e21103-3810-4678-888b-f4078c615e09",
+		"tenantId": "207c3e32-7115-4ed3-8a55-22f7edb77dc9"
+	}
+}

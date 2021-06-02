@@ -1,0 +1,53 @@
+{
+	"name": "pl_InsureArch_NewUser",
+	"properties": {
+		"description": "Add new User (accounts) into AIMLDB",
+		"activities": [
+			{
+				"name": "AWS_USP_InsureArk_NewUser",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[USR].[USP_InsureArk_NewUser]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AWS_AIML_DBDEV",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "AZ_USP_InsureArk_NewUser",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[USR].[USP_InsureArk_NewUser]"
+				},
+				"linkedServiceName": {
+					"referenceName": "AZ_AIML_DBDEV",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [
+			"InsureArK"
+		],
+		"lastPublishTime": "2021-06-02T09:50:21Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

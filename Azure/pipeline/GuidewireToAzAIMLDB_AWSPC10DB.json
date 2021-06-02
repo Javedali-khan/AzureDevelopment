@@ -1,0 +1,200 @@
+{
+	"name": "GuidewireToAzAIMLDB_AWSPC10DB",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy Table",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Lookup_New_Watermarkvalue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					},
+					{
+						"activity": "Lookup_Old_Watermarkvalue",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT * FROM @{pipeline().parameters.TableName} WHERE @{pipeline().parameters.WaterMarkColumn} > '@{activity('Lookup_Old_Watermarkvalue').output.firstRow.WaterMarkValue}'\nAND @{pipeline().parameters.WaterMarkColumn} <= '@{activity('Lookup_New_Watermarkvalue').output.firstRow.NewWaterMarkValue}'\n",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink",
+						"preCopyScript": {
+							"value": "@{concat('TRUNCATE TABLE ',pipeline().parameters.SchemaName,'.',pipeline().parameters.TableName)}",
+							"type": "Expression"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_GuidewirePCDB_sqlserver",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_AzSqlserver_AIML_DBDEV",
+						"type": "DatasetReference",
+						"parameters": {
+							"TableName": {
+								"value": "@pipeline().parameters.TableName",
+								"type": "Expression"
+							},
+							"SchemaName": {
+								"value": "@pipeline().parameters.SchemaName",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Lookup_New_Watermarkvalue",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT MAX(@{pipeline().parameters.WaterMarkColumn}) AS NewWaterMarkValue from @{pipeline().parameters.TableName}",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_GuidewirePCDB_sqlserver",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Lookup_Old_Watermarkvalue",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": {
+							"value": "SELECT TableName,WaterMarkValue from dbo.WaterMarkTable WHERE TableName = '@{pipeline().parameters.TableName}'",
+							"type": "Expression"
+						},
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_azsqlserver_watermarktable",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": true
+				}
+			},
+			{
+				"name": "Set Watermark",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [
+					{
+						"activity": "Copy Table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[spSETWaterMark]",
+					"storedProcedureParameters": {
+						"NewValue": {
+							"value": {
+								"value": "@activity('Lookup_New_Watermarkvalue').output.firstRow.NewWaterMarkValue",
+								"type": "Expression"
+							},
+							"type": "String"
+						},
+						"TableName": {
+							"value": {
+								"value": "@activity('Lookup_Old_Watermarkvalue').output.firstRow.TableName",
+								"type": "Expression"
+							},
+							"type": "String"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"TableName": {
+				"type": "string",
+				"defaultValue": "pc_job"
+			},
+			"WaterMarkColumn": {
+				"type": "string",
+				"defaultValue": "UpdateTime"
+			},
+			"SchemaName": {
+				"type": "string",
+				"defaultValue": "AIML"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-05-11T16:39:23Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

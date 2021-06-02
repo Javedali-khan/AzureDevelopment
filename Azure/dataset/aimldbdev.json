@@ -1,0 +1,17 @@
+{
+	"name": "aimldbdev",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "AIML",
+			"table": "PC_PolicyDetails"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

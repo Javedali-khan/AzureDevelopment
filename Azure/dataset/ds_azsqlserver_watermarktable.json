@@ -1,0 +1,28 @@
+{
+	"name": "ds_azsqlserver_watermarktable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "TableName",
+				"type": "varchar"
+			},
+			{
+				"name": "WaterMarkValue",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "WaterMarkTable"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

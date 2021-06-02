@@ -1,0 +1,18 @@
+{
+	"name": "D365CustomerInsightApi",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_CustomerInsightApi",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			}
+		},
+		"schema": {}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

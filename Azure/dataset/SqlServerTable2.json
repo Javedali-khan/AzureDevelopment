@@ -1,0 +1,26 @@
+{
+	"name": "SqlServerTable2",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "TableName",
+				"type": "varchar"
+			},
+			{
+				"name": "WaterMarkValue",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "WaterMarkTable1"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

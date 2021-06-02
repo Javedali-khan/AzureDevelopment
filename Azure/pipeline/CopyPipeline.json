@@ -1,0 +1,55 @@
+{
+	"name": "CopyPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"sqlReaderQuery": "SELECT DISTINCT POL.ID Policy_ID\n\t,ACC.ID Account_ID\n\t,ACC.AccountNumber\n\t,ACCS.NAME AS AccountStatus\n\t,PPRD.PolicyNumber\n\t,POL.ProductCode\n\t,CASE WHEN GETDATE() >= PPRD.PeriodStart AND GETDATE() <= PPRD.PeriodEnd THEN 'Active'\n\t\t\tWHEN GETDATE() > PPRD.PeriodEnd THEN 'Expired'\n\tELSE 'Future' END AS PolicyFlag\n\t,CASE WHEN POL.ProductCode = 'PersonalAuto' THEN PA_COV.PolicyCoverage \n\t\tWHEN POL.ProductCode = 'HOPHomeowners' THEN HO_COV.PolicyCoverage\n\tELSE '' END AS PolicyCoverageType\n\t,CASE WHEN POL.ProductCode = 'PersonalAuto' THEN Veh_COV.VehicleCoverage \n\t\t--WHEN POL.ProductCode = 'HOPHomeowners' THEN ''\n\tELSE '' END AS VehicleCoverageType\n\t,POL.OriginalEffectiveDate\n\t,PPS.Name AS PolicyPeriodStatus\n\t,POL.CreateTime\n\t,PPRD.PeriodStart\n\t,PPRD.PeriodEnd\n\t--,LHT.Name AS LossHistoryType\n\t--,POL.Retired\n\t--,BH.Name AS BillingMethod\n\t,PPRD.PrimaryInsuredName\n\t,PT.NextRenewalCheckDate\n\t,TT.NAME AS SelectedTermType\n\t--,POL.PriorPremiums\n\t--,PPRD.TotalCostRPT\t\n\t--,PPRD.TransactionCostRPT\n\t--,PPRD.DepositCollected\t\n\t--,PPRD.DepositAmount\n\t,PPRD.TotalPremiumRPT\t\n\t--,PPRD.EstimatedPremium\n\t--,PPRD.TransactionPremiumRPT\n\t--,PPRD.TaxSurchargesRPT\n\t,PV.Vin\n\t--,PV.Color\n\t--,PV.VehicleType\n\t--,PV.Make\n\t--,PV.Model\n\t--,PV.LicenseState\n\t--,PV.CostNew\n\t,PV.VehicleNumber\n\t,DATEDIFF(DAY,OriginalEffectiveDate,GETDATE()) AS PolicyAge_In_Days\n\t--,PV.[Year]\n\t,pol.Updatetime\nFROM AWSPC10DB.dbo.pc_Account ACC WITH(NOLOCK)\n\tINNER JOIN AWSPC10DB.dbo.pc_policy POL WITH(NOLOCK)\n\t\tON ACC.ID = POL.AccountID\n\tLEFT JOIN AWSPC10DB.dbo.[pctl_accountstatus] ACCS WITH(NOLOCK)\n\t\tON ACC.AccountStatus = ACCS.ID\n\tLEFT JOIN AWSPC10DB.dbo.pc_policyperiod PPRD WITH(NOLOCK)\n\t\tON POL.ID = PPRD.PolicyID\n\tLEFT JOIN AWSPC10DB.dbo.[pc_policyline] PL WITH(NOLOCK)\n\t\tON PPRD.PeriodID = PL.BranchID\n\t\t\tAND PL.PatternCode IN ('HOPLine','PersonalAutoLine')\n\tLEFT JOIN AWSPC10DB.dbo.pc_personalvehicle PV WITH(NOLOCK)\n\t\tON PL.ID = PV.PALine\n\tLEFT JOIN (SELECT DISTINCT PAC.PALine\n\t\t\t\t,STUFF((SELECT DISTINCT '; ' + PAC1.PatternCode \n\t\t\t\t\t  FROM  AWSPC10DB.dbo.[pc_personalautocov] PAC1 WITH(NOLOCK)\n\t\t\t\t\t  WHERE PAC1.PALine = PAC.PALine\n\t\t\t\t\t  FOR XML PATH('')), 1, 1, '') PolicyCoverage\n\t\t\t\tFROM AWSPC10DB.dbo.[pc_personalautocov] PAC WITH(NOLOCK)\n\t\t\t\t)PA_COV\n\t\tON PL.ID = PA_COV.PALine\n\tLEFT JOIN (SELECT DISTINCT PVC.PersonalVehicle,PVC.BranchID\n\t\t\t\t,STUFF((SELECT DISTINCT '; ' + PVC1.PatternCode \n\t\t\t\t\t\tFROM AWSPC10DB.dbo.pc_personalvehiclecov PVC1 WITH(NOLOCK)\n\t\t\t\t\t\tWHERE PVC1.PersonalVehicle = PVC.PersonalVehicle\n\t\t\t\t\t\t\tAND PVC1.BranchID = PVC.BranchID\n\t\t\t\t\t\tFOR XML PATH('')), 1, 1, '') VehicleCoverage\n\t\t\t\tFROM AWSPC10DB.dbo.pc_personalvehiclecov PVC WITH(NOLOCK)\n\t\t\t\t)Veh_COV\n\t\tON Veh_COV.PersonalVehicle = PV.ID\n\t\t\tAND Veh_COV.BranchID = PPRD.PeriodID\n\tLEFT JOIN (SELECT DISTINCT HOC.HOPLine\n\t\t\t\t,STUFF((SELECT DISTINCT '; ' + HOC1.PatternCode \n\t\t\t\t\t\tFROM AWSPC10DB.dbo.[pc_hoplinecov] HOC1 WITH(NOLOCK)\n\t\t\t\t\t\tWHERE HOC1.HOPLine = HOC.HOPLine\n\t\t\t\t\t\tFOR XML PATH('')), 1, 1, '') PolicyCoverage\n\t\t\t\tFROM AWSPC10DB.dbo.[pc_hoplinecov] HOC WITH(NOLOCK)\n\t\t\t\t)HO_COV\n\t\tON PL.ID = HO_COV.HOPLine\n\tLEFT JOIN AWSPC10DB.dbo.pctl_policyperiodstatus PPS WITH(NOLOCK)\n\t\tON PPRD.Status = PPS.ID\n\tLEFT JOIN AWSPC10DB.dbo.[pctl_losshistorytype] LHT WITH(NOLOCK)\n\t\tON POL.LossHistoryType = LHT.ID\n\tLEFT JOIN AWSPC10DB.dbo.pctl_billingmethod BH WITH(NOLOCK)\n\t\tON PPRD.BillingMethod = BH.ID\n\tLEFT JOIN AWSPC10DB.dbo.pctl_termtype TT WITH(NOLOCK)\n\t\tON PPRD.SelectedTermType = TT.ID\n\tLEFT JOIN AWSPC10DB.dbo.pc_policyterm PT WITH(NOLOCK)\n\t\tON PPRD.PolicyTermID = PT.ID\n/*SELECT POL.ID Policy_ID\n\t,ACC.ID Account_ID\n\t,ACC.AccountNumber\n\t,ACCS.NAME AS AccountStatus\n\t--,ACCS.DESCRIPTION AS AccountStatusDesc\n\t,PPRD.PolicyNumber\n\t,POL.ProductCode\n\t,POL.OriginalEffectiveDate\n\t,PPS.Name AS PolicyPeriodStatus\n\t--,PPS.DESCRIPTION AS PolicyPeriodStatusDesc\n\t--,CASE WHEN GETDATE() >= PPRD.PeriodStart AND GETDATE() <= PPRD.PeriodEnd THEN 'Active'\n\t--\t\tWHEN GETDATE() > PPRD.PeriodEnd THEN 'Expired'\n\t--ELSE 'Future' END AS PeriodStatus\n\t,POL.CreateTime\n\t,PPRD.PeriodStart\n\t,PPRD.PeriodEnd\n\t,LHT.Name AS LossHistoryType\n\t,POL.Retired\n\t,BH.Name AS BillingMethod\n\t,PPRD.PrimaryInsuredName\n\t,PT.NextRenewalCheckDate\n\t,TT.NAME AS SelectedTermType\n\t,POL.PriorPremiums\n\t--,POL.PriorPremiums_cur\n\t,PPRD.TotalCostRPT\t\n\t--,PPRD.TotalCostRPT_cur\n\t,PPRD.TransactionCostRPT\n\t--,PPRD.TransactionCostRPT_cur\n\t,PPRD.DepositCollected\t\n\t--,PPRD.DepositCollected_cur\n\t,PPRD.DepositAmount\n\t,PPRD.TotalPremiumRPT\t\n\t--,PPRD.TotalPremiumRPT_cur\t\n\t--,PPRD.ValidReinsurance\n\t,PPRD.EstimatedPremium\n\t--,PPRD.EstimatedPremium_cur\n\t,PPRD.TransactionPremiumRPT\n\t--,PPRD.TransactionPremiumRPT_cur\n\t,PPRD.TaxSurchargesRPT\nFROM AIML.pc_Account ACC WITH(NOLOCK)\n\tINNER JOIN AIML.pc_policy POL WITH(NOLOCK)\n\t\tON ACC.ID = POL.AccountID\n\tLEFT JOIN AIML.[pctl_accountstatus] ACCS WITH(NOLOCK)\n\t\tON ACC.AccountStatus = ACCS.ID\n\tLEFT JOIN AIML.pc_policyperiod PPRD WITH(NOLOCK)\n\t\tON POL.ID = PPRD.PolicyID\n\t\t\t--AND GETDATE() BETWEEN PPRD.PeriodStart AND PPRD.PeriodEnd\n\tLEFT JOIN AIML.pctl_policyperiodstatus PPS WITH(NOLOCK)\n\t\tON PPRD.Status = PPS.ID\n\tLEFT JOIN AIML.[pctl_losshistorytype] LHT WITH(NOLOCK)\n\t\tON POL.LossHistoryType = LHT.ID\n\tLEFT JOIN AIML.pctl_billingmethod BH WITH(NOLOCK)\n\t\tON PPRD.BillingMethod = BH.ID\n\tLEFT JOIN AIML.pctl_termtype TT WITH(NOLOCK)\n\t\tON PPRD.SelectedTermType = TT.ID\n\tLEFT JOIN AIML.pc_policyterm PT WITH(NOLOCK)\n\t\tON PPRD.PolicyTermID = PT.ID\n--WHERE ACC.AccountNumber= '7768845536'--POL.AccountID = 29\n*/",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"sink": {
+						"type": "SqlServerSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "AIMLDEVCC10DB",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "aimldbdev",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-05-04T10:28:50Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

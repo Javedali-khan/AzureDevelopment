@@ -1,0 +1,445 @@
+{
+	"name": "Az_aiml_dbdev_SqlServerTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "CustomerId",
+				"type": "varchar"
+			},
+			{
+				"name": "SSN (Guidewire_PC_Insurance_Contacts)",
+				"type": "varchar"
+			},
+			{
+				"name": "CreateTime",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "FirstName",
+				"type": "varchar"
+			},
+			{
+				"name": "LastName",
+				"type": "varchar"
+			},
+			{
+				"name": "Customer_Name",
+				"type": "varchar"
+			},
+			{
+				"name": "DateOfBirth",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Customer_Age",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Gender",
+				"type": "varchar"
+			},
+			{
+				"name": "Marital_Status",
+				"type": "varchar"
+			},
+			{
+				"name": "Type_of_employment",
+				"type": "varchar"
+			},
+			{
+				"name": "Occupation",
+				"type": "varchar"
+			},
+			{
+				"name": "Email",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PrimaryPhoneType",
+				"type": "varchar"
+			},
+			{
+				"name": "Phone",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AddressType",
+				"type": "varchar"
+			},
+			{
+				"name": "AddressLine1",
+				"type": "varchar"
+			},
+			{
+				"name": "AddressLine2",
+				"type": "varchar"
+			},
+			{
+				"name": "AddressLine3",
+				"type": "varchar"
+			},
+			{
+				"name": "CountryCode",
+				"type": "varchar"
+			},
+			{
+				"name": "Country",
+				"type": "varchar"
+			},
+			{
+				"name": "State",
+				"type": "varchar"
+			},
+			{
+				"name": "StateName",
+				"type": "varchar"
+			},
+			{
+				"name": "City",
+				"type": "varchar"
+			},
+			{
+				"name": "PostalCode",
+				"type": "varchar"
+			},
+			{
+				"name": "PreferredSettlementCurrency",
+				"type": "varchar"
+			},
+			{
+				"name": "Education_type",
+				"type": "varchar"
+			},
+			{
+				"name": "Income",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "Number_of_family_members",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UpdatedOn",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "NumberOfDependents_1",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Overall Relationship Tenure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "NumberOfDependents",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "LicenseState",
+				"type": "varchar"
+			},
+			{
+				"name": "LicenseNumber",
+				"type": "varchar"
+			},
+			{
+				"name": "PCInsurance_Rel_tenure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Year_First_Licensed",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "address1_addresstypecode_display",
+				"type": "varchar"
+			},
+			{
+				"name": "address1_line2",
+				"type": "varchar"
+			},
+			{
+				"name": "address1_line3",
+				"type": "varchar"
+			},
+			{
+				"name": "annualincome",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "createdon",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "educationcode_display",
+				"type": "varchar"
+			},
+			{
+				"name": "new_countrycode",
+				"type": "varchar"
+			},
+			{
+				"name": "new_customer_age",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "new_facebookid",
+				"type": "nvarchar"
+			},
+			{
+				"name": "new_marital_status",
+				"type": "varchar"
+			},
+			{
+				"name": "new_number_of_family_members",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "new_numberofdependents",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "new_occupation",
+				"type": "varchar"
+			},
+			{
+				"name": "new_primaryphonetype",
+				"type": "varchar"
+			},
+			{
+				"name": "new_twitterid",
+				"type": "varchar"
+			},
+			{
+				"name": "new_type_of_employment",
+				"type": "varchar"
+			},
+			{
+				"name": "new_updatedon",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "Customer_Age_Marketing_Customers",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Marital_Status_CRM",
+				"type": "varchar"
+			},
+			{
+				"name": "Type_of_employment_CRM",
+				"type": "varchar"
+			},
+			{
+				"name": "Occupation_CRM",
+				"type": "varchar"
+			},
+			{
+				"name": "PreferredChannel",
+				"type": "varchar"
+			},
+			{
+				"name": "Number_of_family_members_CRM",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "MarketingAdminCost",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TravelInsurance_Rel_Tenure",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Nominee_Relationships",
+				"type": "varchar"
+			},
+			{
+				"name": "Credit_score",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "VIN",
+				"type": "varchar"
+			},
+			{
+				"name": "Tel_AdminCost",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Risk_OR_Opportunity",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Risk_OR_Opportunity_Details",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Avg_Csat",
+				"type": "float",
+				"precision": 15
+			},
+			{
+				"name": "Customer_Segment",
+				"type": "varchar"
+			},
+			{
+				"name": "Concerned_Policy",
+				"type": "varchar"
+			},
+			{
+				"name": "Has_Similar_Policy",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Risk_Indicator_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Risk_Indicator_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Opportunity_Indicator_1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Opportunity_Indicator_2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Policies",
+				"type": "varchar"
+			},
+			{
+				"name": "Year_Since",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Recommendation",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Transition_Question",
+				"type": "nvarchar"
+			},
+			{
+				"name": "contactid",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Age",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "AccountNumber (Guidewire_PC_Insurance_Contacts)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AccountNumber_Alternate (Guidewire_PC_Insurance_Contacts)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "new_accountnumber",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "new_accountnumber_Alternate",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AccountNumber (Marketing_Marketing_Customers)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AccountNumber_Alternate (Marketing_Marketing_Customers)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AccountNumber (TravelInsurance_TravelInsuranceContacts)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AccountNumber_Alternate (TravelInsurance_TravelInsuranceContacts)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "SSN (CreditScore_CreditScore)",
+				"type": "varchar"
+			},
+			{
+				"name": "SSN_Alternate (CreditScore_CreditScore)",
+				"type": "varchar"
+			},
+			{
+				"name": "SSN (Telematics_TelematicsContact)",
+				"type": "varchar"
+			},
+			{
+				"name": "SSN_Alternate (Telematics_TelematicsContact)",
+				"type": "varchar"
+			},
+			{
+				"name": "AccountNumber (Agent_Agent_Customer_Activity)",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "AccountNumber_Alternate (Agent_Agent_Customer_Activity)",
+				"type": "bigint",
+				"precision": 19
+			}
+		],
+		"typeProperties": {
+			"schema": "CRM",
+			"table": "CustomerInsight"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

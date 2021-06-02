@@ -1,0 +1,30 @@
+{
+	"name": "ds_aimldbdev_config_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "TableName",
+				"type": "varchar"
+			},
+			{
+				"name": "WaterMarkColumn",
+				"type": "varchar"
+			},
+			{
+				"name": "DatabaseName",
+				"type": "varchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ConfigurationTable"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

@@ -1,0 +1,38 @@
+{
+	"name": "SqlServerTable1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AIML_DB",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": [
+			{
+				"name": "Id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Created_At",
+				"type": "nvarchar"
+			},
+			{
+				"name": "user_id",
+				"type": "nvarchar"
+			},
+			{
+				"name": "user_name",
+				"type": "nvarchar"
+			},
+			{
+				"name": "full_text",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "TwitterStream"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

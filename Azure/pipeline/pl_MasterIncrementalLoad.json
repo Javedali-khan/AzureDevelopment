@@ -1,0 +1,161 @@
+{
+	"name": "pl_MasterIncrementalLoad",
+	"properties": {
+		"activities": [
+			{
+				"name": "Lookup Configuration Table",
+				"type": "Lookup",
+				"dependsOn": [
+					{
+						"activity": "DropAndCreateWaterMarkTable",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "SqlServerSource",
+						"queryTimeout": "02:00:00",
+						"partitionOption": "None"
+					},
+					"dataset": {
+						"referenceName": "ds_aimldbdev_config_table",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			},
+			{
+				"name": "ForEachTable",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Lookup Configuration Table",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Lookup Configuration Table').output.value",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "If Table is from PC10DB",
+							"type": "IfCondition",
+							"dependsOn": [],
+							"userProperties": [],
+							"typeProperties": {
+								"expression": {
+									"value": "@equals(item().DatabaseName,'AWSPC10DB')",
+									"type": "Expression"
+								},
+								"ifFalseActivities": [
+									{
+										"name": "Execute CC10DB",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "GuidewireToAzAIMLDB_AWSCC10DB",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true,
+											"parameters": {
+												"TableName": {
+													"value": "@{item().TableName}",
+													"type": "Expression"
+												},
+												"WaterMarkColumn": {
+													"value": "@{item().WaterMarkColumn}",
+													"type": "Expression"
+												},
+												"SchemaName": {
+													"value": "@{item().SchemaName}",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								],
+								"ifTrueActivities": [
+									{
+										"name": "Execute PC10DB",
+										"type": "ExecutePipeline",
+										"dependsOn": [],
+										"userProperties": [],
+										"typeProperties": {
+											"pipeline": {
+												"referenceName": "GuidewireToAzAIMLDB_AWSPC10DB",
+												"type": "PipelineReference"
+											},
+											"waitOnCompletion": true,
+											"parameters": {
+												"TableName": {
+													"value": "@{item().TableName}",
+													"type": "Expression"
+												},
+												"WaterMarkColumn": {
+													"value": "@{item().WaterMarkColumn}",
+													"type": "Expression"
+												},
+												"SchemaName": {
+													"value": "@{item().SchemaName}",
+													"type": "Expression"
+												}
+											}
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			},
+			{
+				"name": "DropAndCreateWaterMarkTable",
+				"type": "SqlServerStoredProcedure",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"storedProcedureName": "[dbo].[spDropAndCreateWaterMarkTable]"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_AzAIMLDBDEV_sqlserevr",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"variables": {
+			"True": {
+				"type": "String"
+			},
+			"False": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2021-05-21T10:16:54Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

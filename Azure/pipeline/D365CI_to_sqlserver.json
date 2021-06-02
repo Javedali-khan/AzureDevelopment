@@ -1,0 +1,926 @@
+{
+	"name": "D365CI_to_sqlserver",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy data1",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Destination",
+						"value": "CRM.TestCustomerInsight"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "JsonSource",
+						"storeSettings": {
+							"type": "HttpReadSettings",
+							"requestMethod": "GET"
+						},
+						"formatSettings": {
+							"type": "JsonReadSettings"
+						}
+					},
+					"sink": {
+						"type": "SqlServerSink"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"path": "['CustomerId']"
+								},
+								"sink": {
+									"name": "CustomerId",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['SSN']"
+								},
+								"sink": {
+									"name": "SSN (Guidewire_PC_Insurance_Contacts)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['CreateTime']"
+								},
+								"sink": {
+									"name": "CreateTime",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['FirstName']"
+								},
+								"sink": {
+									"name": "FirstName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['LastName']"
+								},
+								"sink": {
+									"name": "LastName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Customer_Name']"
+								},
+								"sink": {
+									"name": "Customer_Name",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['DateOfBirth']"
+								},
+								"sink": {
+									"name": "DateOfBirth",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['Customer_Age']"
+								},
+								"sink": {
+									"name": "Customer_Age",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Gender']"
+								},
+								"sink": {
+									"name": "Gender",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Marital_Status']"
+								},
+								"sink": {
+									"name": "Marital_Status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Type_of_employment']"
+								},
+								"sink": {
+									"name": "Type_of_employment",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Occupation']"
+								},
+								"sink": {
+									"name": "Occupation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Email']"
+								},
+								"sink": {
+									"name": "Email",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['PrimaryPhoneType']"
+								},
+								"sink": {
+									"name": "PrimaryPhoneType",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Phone']"
+								},
+								"sink": {
+									"name": "Phone",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['AddressType']"
+								},
+								"sink": {
+									"name": "AddressType",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['AddressLine1']"
+								},
+								"sink": {
+									"name": "AddressLine1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['AddressLine2']"
+								},
+								"sink": {
+									"name": "AddressLine2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['AddressLine3']"
+								},
+								"sink": {
+									"name": "AddressLine3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['CountryCode']"
+								},
+								"sink": {
+									"name": "CountryCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Country']"
+								},
+								"sink": {
+									"name": "Country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['State']"
+								},
+								"sink": {
+									"name": "State",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['StateName']"
+								},
+								"sink": {
+									"name": "StateName",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['City']"
+								},
+								"sink": {
+									"name": "City",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['PostalCode']"
+								},
+								"sink": {
+									"name": "PostalCode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['PreferredSettlementCurrency']"
+								},
+								"sink": {
+									"name": "PreferredSettlementCurrency",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Education_type']"
+								},
+								"sink": {
+									"name": "Education_type",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Income']"
+								},
+								"sink": {
+									"name": "Income",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['Number_of_family_members']"
+								},
+								"sink": {
+									"name": "Number_of_family_members",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['UpdatedOn']"
+								},
+								"sink": {
+									"name": "UpdatedOn",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['NumberOfDependents_1']"
+								},
+								"sink": {
+									"name": "NumberOfDependents_1",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['OverallRelationshipTenure']"
+								},
+								"sink": {
+									"name": "Overall Relationship Tenure",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['NumberOfDependents']"
+								},
+								"sink": {
+									"name": "NumberOfDependents",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['LicenseState']"
+								},
+								"sink": {
+									"name": "LicenseState",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['LicenseNumber']"
+								},
+								"sink": {
+									"name": "LicenseNumber",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['PCInsurance_Rel_tenure']"
+								},
+								"sink": {
+									"name": "PCInsurance_Rel_tenure",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Year_First_Licensed']"
+								},
+								"sink": {
+									"name": "Year_First_Licensed",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['address1_addresstypecode_display']"
+								},
+								"sink": {
+									"name": "address1_addresstypecode_display",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address1_line2']"
+								},
+								"sink": {
+									"name": "address1_line2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['address1_line3']"
+								},
+								"sink": {
+									"name": "address1_line3",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['annualincome']"
+								},
+								"sink": {
+									"name": "annualincome",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['createdon']"
+								},
+								"sink": {
+									"name": "createdon",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['educationcode_display']"
+								},
+								"sink": {
+									"name": "educationcode_display",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_countrycode']"
+								},
+								"sink": {
+									"name": "new_countrycode",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_customer_age']"
+								},
+								"sink": {
+									"name": "new_customer_age",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_facebookid']"
+								},
+								"sink": {
+									"name": "new_facebookid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_marital_status']"
+								},
+								"sink": {
+									"name": "new_marital_status",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_number_of_family_members']"
+								},
+								"sink": {
+									"name": "new_number_of_family_members",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_numberofdependents']"
+								},
+								"sink": {
+									"name": "new_numberofdependents",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_occupation']"
+								},
+								"sink": {
+									"name": "new_occupation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_primaryphonetype']"
+								},
+								"sink": {
+									"name": "new_primaryphonetype",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_twitterid']"
+								},
+								"sink": {
+									"name": "new_twitterid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_type_of_employment']"
+								},
+								"sink": {
+									"name": "new_type_of_employment",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['new_updatedon']"
+								},
+								"sink": {
+									"name": "new_updatedon",
+									"type": "DateTime"
+								}
+							},
+							{
+								"source": {
+									"path": "['Customer_Age_1']"
+								},
+								"sink": {
+									"name": "Customer_Age_Marketing_Customers",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Marital_Status_CRM']"
+								},
+								"sink": {
+									"name": "Marital_Status_CRM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Type_of_employment_CRM']"
+								},
+								"sink": {
+									"name": "Type_of_employment_CRM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Occupation_CRM']"
+								},
+								"sink": {
+									"name": "Occupation_CRM",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['PreferredChannel']"
+								},
+								"sink": {
+									"name": "PreferredChannel",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Number_of_family_members_CRM']"
+								},
+								"sink": {
+									"name": "Number_of_family_members_CRM",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Administrative_Cost']"
+								},
+								"sink": {
+									"name": "MarketingAdminCost",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['TravelInsurance_Rel_Tenure']"
+								},
+								"sink": {
+									"name": "TravelInsurance_Rel_Tenure",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Nominee_Relationships']"
+								},
+								"sink": {
+									"name": "Nominee_Relationships",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Credit_score']"
+								},
+								"sink": {
+									"name": "Credit_score",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['VIN']"
+								},
+								"sink": {
+									"name": "VIN",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Tel_AdminCost']"
+								},
+								"sink": {
+									"name": "Tel_AdminCost",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Risk_OR_Opportunity']"
+								},
+								"sink": {
+									"name": "Risk_OR_Opportunity",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Risk_OR_Opportunity_Details']"
+								},
+								"sink": {
+									"name": "Risk_OR_Opportunity_Details",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Avg_Csat']"
+								},
+								"sink": {
+									"name": "Avg_Csat",
+									"type": "Double"
+								}
+							},
+							{
+								"source": {
+									"path": "['Customer_Segment']"
+								},
+								"sink": {
+									"name": "Customer_Segment",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Concerned_Policy']"
+								},
+								"sink": {
+									"name": "Concerned_Policy",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Has_Similar_Policy']"
+								},
+								"sink": {
+									"name": "Has_Similar_Policy",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Risk_Indicator_1']"
+								},
+								"sink": {
+									"name": "Risk_Indicator_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Risk_Indicator_2']"
+								},
+								"sink": {
+									"name": "Risk_Indicator_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Opportunity_Indicator_1']"
+								},
+								"sink": {
+									"name": "Opportunity_Indicator_1",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Opportunity_Indicator_2']"
+								},
+								"sink": {
+									"name": "Opportunity_Indicator_2",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Policies']"
+								},
+								"sink": {
+									"name": "Policies",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Year_Since']"
+								},
+								"sink": {
+									"name": "Year_Since",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Recommendation']"
+								},
+								"sink": {
+									"name": "Recommendation",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Transition_Question']"
+								},
+								"sink": {
+									"name": "Transition_Question",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['contactid']"
+								},
+								"sink": {
+									"name": "contactid",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Age']"
+								},
+								"sink": {
+									"name": "Age",
+									"type": "Int32"
+								}
+							},
+							{
+								"source": {
+									"path": "['Guidewire_PC_Insurance_Contacts_AccountNumber']"
+								},
+								"sink": {
+									"name": "AccountNumber (Guidewire_PC_Insurance_Contacts)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['Guidewire_PC_Insurance_Contacts_AccountNumber_Alternate']"
+								},
+								"sink": {
+									"name": "AccountNumber_Alternate (Guidewire_PC_Insurance_Contacts)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['D365Contacts_D365Contact_new_accountnumber']"
+								},
+								"sink": {
+									"name": "new_accountnumber",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['D365Contacts_D365Contact_new_accountnumber_Alternate']"
+								},
+								"sink": {
+									"name": "new_accountnumber_Alternate",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['Marketing_Marketing_Customers_AccountNumber']"
+								},
+								"sink": {
+									"name": "AccountNumber (Marketing_Marketing_Customers)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['Marketing_Marketing_Customers_AccountNumber_Alternate']"
+								},
+								"sink": {
+									"name": "AccountNumber_Alternate (Marketing_Marketing_Customers)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['TravelInsurance_TravelInsuranceContacts_AccountNumber']"
+								},
+								"sink": {
+									"name": "AccountNumber (TravelInsurance_TravelInsuranceContacts)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['TravelInsurance_TravelInsuranceContacts_AccountNumber_Alternate']"
+								},
+								"sink": {
+									"name": "AccountNumber_Alternate (TravelInsurance_TravelInsuranceContacts)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['CreditScore_CreditScore_SSN']"
+								},
+								"sink": {
+									"name": "SSN (CreditScore_CreditScore)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['CreditScore_CreditScore_SSN_Alternate']"
+								},
+								"sink": {
+									"name": "SSN_Alternate (CreditScore_CreditScore)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Telematics_TelematicsContact_SSN']"
+								},
+								"sink": {
+									"name": "SSN (Telematics_TelematicsContact)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Telematics_TelematicsContact_SSN_Alternate']"
+								},
+								"sink": {
+									"name": "SSN_Alternate (Telematics_TelematicsContact)",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"path": "['Agent_Agent_Customer_Activity_AccountNumber']"
+								},
+								"sink": {
+									"name": "AccountNumber (Agent_Agent_Customer_Activity)",
+									"type": "Int64"
+								}
+							},
+							{
+								"source": {
+									"path": "['Agent_Agent_Customer_Activity_AccountNumber_Alternate']"
+								},
+								"sink": {
+									"name": "AccountNumber_Alternate (Agent_Agent_Customer_Activity)",
+									"type": "Int64"
+								}
+							}
+						],
+						"collectionReference": "$['value']"
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "D365CustomerInsightApi",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "Az_aiml_dbdev_SqlServerTable",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2021-05-07T10:10:55Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
